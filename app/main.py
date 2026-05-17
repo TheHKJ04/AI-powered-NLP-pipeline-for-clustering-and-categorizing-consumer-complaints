@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Query
 from pydantic import BaseModel
 import pickle, sqlite3, re
 import pandas as pd
@@ -25,11 +25,11 @@ def preprocess(text: str) -> str:
     words = [lemmatizer.lemmatize(w) for w in words]
     return " ".join(words)
 
-model = pickle.load(open("models/model.pkl", "rb"))
-cluster_names = pickle.load(open("models/cluster_names.pkl", "rb"))
+model = pickle.load(open("../models/model.pkl", "rb"))
+cluster_names = pickle.load(open("../models/cluster_names.pkl", "rb"))
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
-conn = sqlite3.connect("data/complaints.db", check_same_thread=False)
+conn = sqlite3.connect("../data/complaints.db", check_same_thread=False)
 c = conn.cursor()
 c.execute('''
     CREATE TABLE IF NOT EXISTS complaints (
@@ -75,3 +75,11 @@ def health_check():
 @app.get("/metrics")
 def metrics():
     return generate_latest()
+
+@app.put("/update_status")
+def update_status(complaint_id: int, new_status: str = Query(...)):
+    resolved_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S") if new_status == "Resolved" else None
+    c.execute("UPDATE complaints SET status=?, resolved_on=? WHERE id=?", (new_status, resolved_time, complaint_id))
+    conn.commit()
+    return {"message": f"Complaint {complaint_id} updated to {new_status}"}
+

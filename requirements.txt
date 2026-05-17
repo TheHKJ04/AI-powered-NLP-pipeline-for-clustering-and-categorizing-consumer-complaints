@@ -6,3 +6,4 @@ nltk
 sentence-transformers
 scikit-learn
 prometheus-client
+requests

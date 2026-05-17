@@ -1,22 +1,26 @@
 {
   "dashboard": {
-    "id": null,
-    "title": "Complaint API Monitoring",
+    "title": "Complaint System Monitoring",
     "panels": [
       {
         "type": "graph",
-        "title": "Request Latency",
+        "title": "Backend Request Latency",
         "targets": [{ "expr": "http_request_duration_seconds_bucket" }]
       },
       {
         "type": "graph",
-        "title": "Error Rate",
+        "title": "Backend Error Rate",
         "targets": [{ "expr": "http_requests_total{endpoint=\"/predict\"}" }]
       },
       {
         "type": "graph",
-        "title": "Request Count",
+        "title": "Backend Request Count",
         "targets": [{ "expr": "http_requests_total" }]
+      },
+      {
+        "type": "graph",
+        "title": "Frontend Availability",
+        "targets": [{ "expr": "up{job=\"streamlit_frontend\"}" }]
       }
     ]
   }
