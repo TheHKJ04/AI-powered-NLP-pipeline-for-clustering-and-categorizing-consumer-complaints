@@ -1,0 +1,23 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Complaint API Monitoring",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Request Latency",
+        "targets": [{ "expr": "http_request_duration_seconds_bucket" }]
+      },
+      {
+        "type": "graph",
+        "title": "Error Rate",
+        "targets": [{ "expr": "http_requests_total{endpoint=\"/predict\"}" }]
+      },
+      {
+        "type": "graph",
+        "title": "Request Count",
+        "targets": [{ "expr": "http_requests_total" }]
+      }
+    ]
+  }
+}
