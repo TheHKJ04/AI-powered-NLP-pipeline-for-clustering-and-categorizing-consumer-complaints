@@ -2,9 +2,11 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy backend code, models, and data
 COPY app/ app/
 COPY models/ models/
 COPY data/ data/

@@ -2,8 +2,14 @@ fastapi
 uvicorn
 pydantic
 pandas
+logging
 nltk
 sentence-transformers
 scikit-learn
 prometheus-client
 requests
+googletrans
+streamlit
+jwt
+passlib
+bcrypt
